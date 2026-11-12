@@ -40,6 +40,7 @@ h2{font-size:2rem;margin-bottom:1rem}
 .petal{position:fixed;top:-30px;z-index:10;width:12px;height:12px;border-radius:70% 0 70% 0;background:var(--gold);opacity:.8;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
 @media (prefers-reduced-motion:reduce){.door{transition:none}.petal{display:none}}
+.photo{display:block;width:min(280px,80%);aspect-ratio:3/4;object-fit:cover;margin:2rem auto 0;border:3px solid var(--gold);border-radius:140px 140px 12px 12px}
 </style>
 </head>
 <body>
@@ -58,6 +59,7 @@ h2{font-size:2rem;margin-bottom:1rem}
     <p>Together with their families</p>
     <h1 class="names"><span id="n1"></span><span class="amp">&amp;</span><span id="n2"></span></h1>
     <p class="date" id="dateText"></p>
+    <img class="photo" src="arav.jpg" alt="Aravind and Saranya" onerror="this.style.display='none'">
     <div class="count" id="count" aria-label="Countdown to the wedding"></div>
   </section>
   <section>
@@ -88,7 +90,7 @@ const C = {
     {t: "Muhurtham", d: "Sunday, 22 November 2026", h: "7:30 AM to 9:00 AM"}
   ],
   venue: "Coimbatore, Tamil Nadu",
-  mapUrl: "https://www.google.com/search?q=codissia&oq=codi&gs_lcrp=EgZjaHJvbWUqBwgDEAAYgAQyBggAEEUYOTIHCAEQABiABDIKCAIQABixAxiABDIHCAMQABiABDINCAQQABiDARixAxiABDIKCAUQABixAxiABDIHCAYQABiABDIHCAcQABiABDIKCAgQABiABBi0BzIKCAkQABixAxiABDINCAoQABiDARixAxiABDITCAsQLhiDARjHARixAxjRAxiABDIHCAwQABiABDIHCA0QABiABDIHCA4QABiABNIBCDQ4MzJqMGo0qAIBsAIB&client=ms-android-motorola-rvo3&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Coimbatore",
   whatsapp: "919999999999"
 };
 const $ = id => document.getElementById(id);
