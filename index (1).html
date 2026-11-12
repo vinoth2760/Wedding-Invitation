@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aravind & Saranya · Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Hind+Madurai:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#3a0813;--maroon:#5a0f1e;--kumkum:#b3122b;--gold:#e3ad45;--jasmine:#fbf6ea;--soft:#e9d9bd;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+html{color-scheme:dark;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--deep);color:var(--jasmine);font-family:"Hind Madurai",system-ui,sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+h1,h2{font-family:Italiana,Georgia,serif;font-weight:400;color:var(--gold)}
+.cover{position:fixed;inset:0;z-index:20;display:flex;pointer-events:auto}
+.door{flex:1;background:var(--maroon);position:relative;transition:transform 1.6s cubic-bezier(.7,0,.2,1);
+background-image:repeating-linear-gradient(45deg,transparent 0 22px,rgba(227,173,69,.08) 22px 23px),repeating-linear-gradient(-45deg,transparent 0 22px,rgba(227,173,69,.08) 22px 23px)}
+.door.l{border-right:2px solid var(--gold)}.door.r{border-left:2px solid var(--gold)}
+.open .l{transform:translateX(-101%)}.open .r{transform:translateX(101%)}
+.seal{position:absolute;inset:0;z-index:21;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;text-align:center;padding:2rem;transition:opacity .6s}
+.open .seal{opacity:0;pointer-events:none}
+.seal p{font-size:1.05rem;color:var(--soft)}
+.seal h1{font-size:clamp(2.4rem,9vw,4.5rem);line-height:1.1}
+button,.btn{font:inherit;font-weight:500;background:var(--gold);color:var(--deep);border:0;border-radius:999px;padding:.8rem 1.8rem;cursor:pointer;text-decoration:none;display:inline-block}
+button:focus-visible,.btn:focus-visible{outline:3px solid var(--jasmine);outline-offset:3px}
+.open.done .cover{display:none}
+main{max-width:640px;margin:0 auto;padding:4rem 1.5rem 5rem;text-align:center}
+section{padding:2.5rem 0;border-bottom:1px solid rgba(227,173,69,.3)}
+section:last-child{border:0}
+.names{font-size:clamp(2.8rem,12vw,5rem);line-height:1.05}
+.amp{display:block;font-size:1.6rem;color:var(--soft);margin:.3rem 0}
+.date{font-size:1.3rem;margin-top:1.2rem}
+h2{font-size:2rem;margin-bottom:1rem}
+.count{display:flex;justify-content:center;gap:1rem;margin-top:1.5rem}
+.count div{min-width:4.2rem;padding:.7rem .4rem;border:1px solid var(--gold);border-radius:.4rem}
+.count b{display:block;font-family:Italiana,serif;font-size:2rem;font-weight:400;color:var(--gold)}
+.count span{font-size:.85rem;color:var(--soft)}
+.ev{margin:1.2rem 0}.ev strong{display:block;font-weight:500;font-size:1.15rem}
+.ev em{font-style:normal;color:var(--soft)}
+.petal{position:fixed;top:-30px;z-index:10;width:12px;height:12px;border-radius:70% 0 70% 0;background:var(--gold);opacity:.8;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){.door{transition:none}.petal{display:none}}
+.photo{display:block;width:min(280px,80%);aspect-ratio:3/4;object-fit:cover;margin:2rem auto 0;border:3px solid var(--gold);border-radius:140px 140px 12px 12px}
+</style>
+</head>
+<body>
+<div class="cover" id="cover">
+  <div class="door l"></div><div class="door r"></div>
+  <div class="seal">
+    <p>With the blessings of our families</p>
+    <h1 id="sealNames"></h1>
+    <p>invite you to their wedding</p>
+    <button id="openBtn">Open invitation</button>
+  </div>
+</div>
+
+<main>
+  <section>
+    <p>Together with their families</p>
+    <h1 class="names"><span id="n1"></span><span class="amp">&amp;</span><span id="n2"></span></h1>
+    <p class="date" id="dateText"></p>
+    <img class="photo" src="arav.jpg" alt="Aravind and Saranya" onerror="this.style.display='none'">
+    <div class="count" id="count" aria-label="Countdown to the wedding"></div>
+  </section>
+  <section>
+    <h2>Celebrations</h2>
+    <div id="events"></div>
+  </section>
+  <section>
+    <h2>Venue</h2>
+    <p id="venue"></p><br>
+    <a class="btn" id="mapBtn" target="_blank" rel="noopener">Open in Google Maps</a>
+  </section>
+  <section>
+    <h2>Will you join us?</h2>
+    <p>Let us know you’re coming so we can welcome you properly.</p><br>
+    <a class="btn" id="rsvpBtn" target="_blank" rel="noopener">Confirm on WhatsApp</a>
+  </section>
+  <section><p>Your presence and blessings will make our day complete.</p></section>
+</main>
+
+<script>
+/* EDIT THIS BLOCK to personalise the invitation */
+const C = {
+  name1: "Aravind", name2: "Saranya",
+  weddingDate: "2026-11-22T07:30:00+05:30",
+  dateText: "21 & 22 November 2026",
+  events: [
+    {t: "Reception", d: "Saturday, 21 November 2026", h: "6:30 PM onwards"},
+    {t: "Muhurtham", d: "Sunday, 22 November 2026", h: "7:30 AM to 9:00 AM"}
+  ],
+  venue: "Coimbatore, Tamil Nadu",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Coimbatore",
+  whatsapp: "919999999999"
+};
+const $ = id => document.getElementById(id);
+$("sealNames").textContent = C.name1 + " & " + C.name2;
+$("n1").textContent = C.name1; $("n2").textContent = C.name2;
+$("dateText").textContent = C.dateText;
+$("venue").textContent = C.venue;
+$("mapBtn").href = C.mapUrl;
+$("rsvpBtn").href = "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent("Hi! I’ll be attending the wedding of " + C.name1 + " & " + C.name2 + ".");
+$("events").innerHTML = C.events.map(e => `<div class="ev"><strong>${e.t}</strong><em>${e.d}</em><br>${e.h}</div>`).join("");
+
+function tick(){
+  const ms = new Date(C.weddingDate) - Date.now();
+  if (ms <= 0) { $("count").textContent = "The celebration has begun"; return; }
+  const s = Math.floor(ms/1000), v = [Math.floor(s/86400), Math.floor(s%86400/3600), Math.floor(s%3600/60), s%60];
+  $("count").innerHTML = ["Days","Hours","Mins","Secs"].map((l,i)=>`<div><b>${v[i]}</b><span>${l}</span></div>`).join("");
+}
+tick(); setInterval(tick, 1000);
+
+function petals(){
+  if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  for (let i=0;i<40;i++){
+    const p = document.createElement("i"); p.className = "petal";
+    p.style.left = Math.random()*100 + "vw";
+    p.style.setProperty("--dx", (Math.random()*120-60) + "px");
+    p.style.animationDuration = (5+Math.random()*5) + "s";
+    p.style.animationDelay = (Math.random()*3) + "s";
+    p.style.background = Math.random()>.5 ? "var(--gold)" : "var(--kumkum)";
+    document.body.appendChild(p); setTimeout(()=>p.remove(), 12000);
+  }
+}
+$("openBtn").addEventListener("click", () => {
+  const c = $("cover"); document.body.classList.add("open");
+  c.classList.add("open"); petals();
+  setTimeout(()=>{ c.style.display="none"; }, 1800);
+});
+</script>
+</body>
+</html>
